@@ -1,22 +1,3 @@
-class Stack:
-     def __init__(self):
-         self.items = []
-
-
-     def isEmpty(self):
-         return self.items == []
-
-     def push(self, item):
-         self.items.append(item)
-
-     def pop(self):
-         return self.items.pop()
-
-     def peek(self):
-         return self.items[len(self.items)-1]
-
-     def size(self):
-         return len(self.items)
 
 
 class ThreeStacks:
@@ -150,15 +131,38 @@ class ThreeStacks:
 
 
 
-s = Stack()
+class StackWithMinumum:
+	def __init__(self):
+		self.items = []
+		self.minimum = []
 
-s.push(1)
-s.push(2)
-s.push(3)
-s.push(4)
-s.push(5)
 
-print "created Stack"
+	def isEmpty(self):
+		return self.items == []
+
+	def push(self, item):
+		if len(self.minimum) == 0:
+			self.minimum.append(item)
+		if item < self.minimum[-1]:
+			self.minimum.append(item)
+		self.items.append(item)
+
+	def pop(self):
+		if self.items[-1] == self.minimum[-1]:
+			self.minimum.pop()
+		return self.items.pop()
+
+	def peek(self):
+		return self.items[len(self.items)-1]
+
+	def size(self):
+		return len(self.items)
+
+	def minimumValue(self):
+		print self.minimum[-1]
+		return self.minimum[-1]
+
+
 
 ### Questions
 
@@ -193,6 +197,20 @@ print("*"*50)
 #### Describe a stack in which in addition to push and pop function also has a minimum function.
 #### The push, pop and minimum functions should all operate in O(1) time.
 
+print "created Stack with minimum"
+
+s = StackWithMinumum()
+
+s.push(10)
+s.push(7)
+s.push(14)
+s.push(29)
+s.push(105)
+
+
+
+print("stacks minimum is ", s.minimumValue())
+print("*"*50)
 
 #### Implement a class which automatically creates a new stack when a certain limit is exceeded
 #### This class should has a method to pop from any stack
