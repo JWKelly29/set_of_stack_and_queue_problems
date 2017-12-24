@@ -25,30 +25,127 @@ class ThreeStacks:
 		self.stack_size = size / 3
 
 		self.bottom_first = 0
-		self.end_first = stack_size - 1
-		self.start_middle = stack_size
-		self.end_middle = (stack_size * 2) - 1
-		self.start_last = stack_size * 2
+		self.end_first = self.stack_size - 1
+		self.start_middle = self.stack_size
+		self.end_middle = (self.stack_size * 2) - 1
+		self.start_last = self.stack_size * 2
 		self.end_last = size - 1
 
 		self.stack1_idx = 0
-		self.stack2_idx = self.stack1_idx + stack_size
-		self.stack3_idx = self.stack2_idx + stack_size
-
-		
-		
-
-	def push(self, item):
+		self.stack2_idx = self.stack1_idx + self.stack_size
+		self.stack3_idx = self.stack2_idx + self.stack_size
 
 		
 
-	def pop(self):
+	
 		
+
+	def stack1_size(self):
+		return self.stack1_idx 
+	
+	def stack2_size(self):
+		return self.stack2_idx - self.end_first - 1
+
+	def stack3_size(self):
+		return self.stack3_idx - self.end_middle - 1
 
 	def size(self):
+		return (self.stack1_size() + self.stack2_size() + self.stack3_size())
+
+	def push_stack1(self, item):
+		if self.stack1_idx > self.end_first:
+			print "Stack full"
+			return False
+		else:
+			print "Added to Stack 1"
+			self.items[self.stack1_idx] = item
+			self.stack1_idx += 1
+			return True
+
+
+	def push_stack2(self, item):
+		if self.stack2_idx > self.end_middle:
+			print "Stack full"
+			return False
+		else:
+			print "Added to Stack 2"
+			self.items[self.stack2_idx] = item
+			self.stack2_idx += 1
+			return True
+
+	def push_stack3(self, item):
+		if self.stack3_idx > self.end_last + 1:
+			print "Stack full"
+			return False
+		else:
+			print "Added to Stack 3"
+			self.items[self.stack3_idx] = item
+			self.stack3_idx += 1
+			return True
+
+	def push_to_smallest_stack(self, item):
+
+		if self.stack1_size() <= self.stack2_size() and self.stack1_size() <= self.stack3_size():
+			self.push_stack1(item)
+		elif self.stack2_size() <= self.stack1_size() and self.stack2_size() <= self.stack3_size():
+			self.push_stack2(item)
+		elif self.stack3_size() <= self.stack1_size() and self.stack3_size() <= self.stack2_size():
+			self.push_stack3(item)
+		else:
+			self.push_stack1(item)
+
+	def pop_stack1(self):
+		if self.stack1_idx == self.bottom_first:
+			print "Stack empty"
+			return False
+		else:
+			print "Popped from Stack 1"
+			self.stack1_idx -= 1
+			self.items[self.stack1_idx] = None
+			return True
+
+
+	def pop_stack2(self):
+		if self.stack2_idx == self.start_middle:
+			print "Stack empty"
+			return False
+		else:
+			print "Popped from Stack 2"
+			self.stack2_idx -= 1
+			self.items[self.stack2_idx] = None
+			return True
+
+	def pop_stack3(self):
+		if self.stack3_idx == self.start_last:
+			print "Stack empty"
+			return False
+		else:
+			print "Popped from Stack 3"
+			self.stack3_idx -= 1
+			self.items[self.stack3_idx] = None
+			return True
+
+	def pop_from_largest(self):
+		if self.stack1_size() > self.stack2_size() and self.stack1_size() > self.stack3_size():
+			self.pop_stack1()
+		elif self.stack2_size() > self.stack1_size() and self.stack2_size() > self.stack3_size():
+			self.pop_stack2()
+		elif self.stack3_size() > self.stack1_size() and self.stack3_size() > self.stack2_size():
+			self.pop_stack3()
+		else:
+			self.pop_stack1()
+
+	def peek_from_stack(self, stack):
+		if stack == 1:
+			print self.items[self.stack1_idx - 1]
+			return self.items[self.stack1_idx - 1]
+		elif stack == 2:
+			print self.items[self.stack2_idx - 1]
+			return self.items[self.stack2_idx - 1]
+		else:
+			print self.items[self.stack3_idx - 1]
+			return self.items[self.stack3_idx - 1]
 		
-
-
 
 
 
@@ -67,19 +164,29 @@ print "created Stack"
 
 #### Describe how you could use a single array to implement three stacks
 
-ts = ThreeStacks()
-ts.push(1)
-ts.push(2)
-ts.push(3)
-ts.push(4)
-ts.push(5)
-ts.push(6)
-ts.push(7)
-ts.push(8)
-ts.push(9)
+ts = ThreeStacks(9)
+ts.push_to_smallest_stack(1)
+ts.peek_from_stack(1)
+ts.push_to_smallest_stack(2)
+ts.peek_from_stack(2)
+ts.push_to_smallest_stack(3)
+ts.peek_from_stack(3)
+ts.push_to_smallest_stack(4)
+ts.push_to_smallest_stack(5)
+ts.push_to_smallest_stack(6)
+print("size of three stack", ts.size())
+ts.push_to_smallest_stack(7)
+ts.push_to_smallest_stack(8)
+ts.push_to_smallest_stack(9)
+print("size of three stack", ts.size())
+ts.pop_from_largest()
+print("size of three stack", ts.size())
+ts.pop_stack2()
+print("size of three stack", ts.size())
+ts.peek_from_stack(2)
 
-print("size of three stack", ts.size)
-print("last item added to three stack", ts.peek_last)
+print("*"*50)
+
 
 
 
