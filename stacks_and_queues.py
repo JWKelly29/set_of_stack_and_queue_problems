@@ -162,6 +162,68 @@ class StackWithMinumum:
 		print self.minimum[-1]
 		return self.minimum[-1]
 
+class Stack:
+	def __init__(self):
+		self.items = []
+
+	def isEmpty(self):
+		return self.items == []
+
+	def push(self, item):
+		self.items.append(item)
+
+	def pop(self):
+		return self.items.pop()
+
+	def peek(self):
+		return self.items[len(self.items)-1]
+
+	def size(self):
+		return len(self.items)
+
+
+class AutomaticStackGenerator:
+	def __init__(self, limit):
+		self.stacks = [Stack()]
+		self.limit = limit
+
+	def size(self):
+		return len(self.stacks)
+
+	def stack_sizes(self):
+		arr = []
+		index = 0
+		while index < len(self.stacks):
+			arr.append(self.stacks[index].size())
+			index += 1
+		return arr
+
+	def isEmpty(self):
+		return self.stacks == []
+
+	def push(self, item):
+
+		if len(self.stacks[-1].items) == self.limit:
+			self.stacks.append(Stack())
+			self.stacks[-1].items.append(item)
+		else:
+			self.stacks[-1].items.append(item)
+
+	def pop_from_stack(self,stack_idx):
+		if stack_idx > len(self.stacks) - 1 or stack_idx < 0:
+			print "stack doesn't exist. Please enter a number between 0 and the number of stacks - 1"
+			return False
+
+		if len(self.stacks[stack_idx].items) == 1:
+			self.stacks.pop(stack_idx)
+		else:
+			self.stacks[stack_idx].items.pop()
+
+
+
+
+
+
 
 
 ### Questions
@@ -214,6 +276,19 @@ print("*"*50)
 
 #### Implement a class which automatically creates a new stack when a certain limit is exceeded
 #### This class should has a method to pop from any stack
+
+print "Created Stack with automatic stack generator with limit of 3"
+
+sa = AutomaticStackGenerator(3)
+
+sa.push(2)
+sa.push(24)
+sa.push(98)
+sa.push(21)
+
+print("should be two stacks",sa.size())
+sa.pop_from_stack(0)
+print("should be two stacks, one with 2 items and another with 1", sa.stack_sizes())
 
 
 #### Implement a myqueue class which implements a queue using two stacks
