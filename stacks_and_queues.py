@@ -223,6 +223,37 @@ class AutomaticStackGenerator:
 
 
 
+class MyQueue:
+	def __init__(self):
+		self.queue_items = Stack()
+		self.dequeue_items = Stack()
+
+	def queue(self, item):
+		self.queue_items.push(item)
+
+	def dequeue(self):
+		index = 0
+		length = len(self.queue_items.items)
+		while index < length:
+			item = self.queue_items.pop()
+			if index == length - 1:
+				pass
+			else:
+				self.dequeue_items.push(item)
+
+			index += 1
+
+		index = 0
+		length = len(self.dequeue_items.items)
+		while index < length:
+			item = self.dequeue_items.pop()
+			self.queue_items.push(item)
+			index += 1
+
+	def show_items(self):
+		print("Queued items", self.queue_items.items)
+		print("Dequeued items", self.dequeue_items.items)
+		return self.queue_items.items, self.dequeue_items.items
 
 
 
@@ -292,6 +323,13 @@ print("should be two stacks, one with 2 items and another with 1", sa.stack_size
 
 
 #### Implement a myqueue class which implements a queue using two stacks
+
+mq = MyQueue()
+mq.queue(1)
+mq.queue(2)
+mq.queue(3)
+mq.dequeue()
+mq.show_items()
 
 #### Write a write a program to sort a stack such that the smallest items are on top.
 #### You can use an additional temporary stack but no other data structure. 
