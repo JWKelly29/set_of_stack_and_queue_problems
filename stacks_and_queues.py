@@ -255,6 +255,39 @@ class MyQueue:
 		print("Dequeued items", self.dequeue_items.items)
 		return self.queue_items.items, self.dequeue_items.items
 
+class StackSorter:
+	def __init__(self):
+		self.stack = Stack()
+		
+
+	def sort_stack(self):
+		if self.stack.isEmpty() == False:
+			popped = self.stack.pop()
+			self.sort_stack()
+			self.insertToStack(self.stack, popped)
+		print self.stack.items
+		
+
+	def insertToStack(self, stack, popped):
+		if stack.isEmpty() == True or popped > stack.peek():
+			
+			stack.push(popped)
+			
+		else:
+			temp_pop = stack.pop()
+			self.insertToStack(stack, popped)
+			stack.push(temp_pop)
+		
+
+
+	def add_values_to_stack(self, values):
+		for value in values:
+			self.stack.push(value)
+			print value
+
+
+
+
 
 
 ### Questions
@@ -331,9 +364,16 @@ mq.queue(3)
 mq.dequeue()
 mq.show_items()
 
-#### Write a write a program to sort a stack such that the smallest items are on top.
+#### Write a program to sort a stack such that the smallest items are on top.
 #### You can use an additional temporary stack but no other data structure. 
 #### The stack supports push, pop, peek and isEmpty.
+
+#### Wasn't able to sort stack using another stack but was able to use recursion. I will come back to this problem at a later date.
+
+stack_sorter = StackSorter()
+stack_sorter.add_values_to_stack([1,97,34,56,23,21,12,89,1090])
+stack_sorter.sort_stack()
+
 
 #### write a program for an animal shelter where customers who wish to adopt
 #### an animal must choose the oldest animal (in terms of time at the shelter)
